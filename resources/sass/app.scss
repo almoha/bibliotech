@@ -20,7 +20,12 @@
 // @import '~@font-awesome/solid.scss';
 // @import '~@font-awesome/brands.scss';
 
-.navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+// .navbar-laravel {
+//   background-color: #fff;
+//   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+// }
+
+.router-link-exact-active {
+	background-color : #3f51b5;
+  color : #fff  !important;
 }
