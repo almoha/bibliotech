@@ -29587,3 +29587,19 @@ readers do not read off random characters that represent icons */
   color: #fff !important;
 }
 
+.color-blue {
+  color: #3490dc;
+}
+
+.color-green {
+  color: #38c172;
+}
+
+.color-red {
+  color: #e3342f;
+}
+
+.color-orange {
+  color: #f6993f;
+}
+
