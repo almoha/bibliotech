@@ -15,7 +15,8 @@ Vue.use(VueRouter)
 //on peut aussi référencer un fichier route externe
 let routes = [
     { path: '/dashboard', component: require('./components/Dashboard.vue').default},
-    { path: '/profile', component: require('./components/Profile.vue').default }
+    { path: '/profile', component: require('./components/Profile.vue').default },
+    { path: '/users', component: require('./components/Users.vue').default }
 ]
 
 const router = new VueRouter({
