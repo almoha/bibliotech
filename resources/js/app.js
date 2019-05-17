@@ -9,12 +9,22 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+// vform
+import { Form, HasError, AlertError } from 'vform';
+
+window.Form = Form; //rajout de Code inspire
+
+Vue.component(HasError.name, HasError)// global component
+Vue.component(AlertError.name, AlertError)//global component
+// ./vform
+
+//Vue Router
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 //on peut aussi référencer un fichier route externe
 let routes = [
-    { path: '/dashboard', component: require('./components/Dashboard.vue').default},
+    { path: '/dashboard', component: require('./components/Dashboard.vue').default },
     { path: '/profile', component: require('./components/Profile.vue').default },
     { path: '/users', component: require('./components/Users.vue').default }
 ]
@@ -22,8 +32,9 @@ let routes = [
 const router = new VueRouter({
     mode: 'history',
     routes // short for `routes: routes`
- 
+
 })
+// ./Vue Router
 
 /**
  * The following block of code may be used to automatically register your
@@ -47,4 +58,5 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 const app = new Vue({
     el: '#app',
     router
+
 });
