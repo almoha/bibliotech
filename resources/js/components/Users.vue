@@ -7,7 +7,9 @@
                 <h3 class="card-title">Users list</h3>
 
                 <div class="card-tools">
-                    <button class="btn btn-success" data-toggle="modal" data-target="#AddNew">Add New <i class="fas fa-user-plus fa-fw"></i>
+                    <button class="btn btn-success" data-toggle="modal" 
+                    data-backdrop="static" data-keyboard="false"
+                    data-target="#AddNew">Add New <i class="fas fa-user-plus fa-fw"></i>
                     </button>      
                 </div>
               </div>
@@ -51,6 +53,8 @@
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
+
+                  <form @submit.prevent="createUser" @keydown="form.onKeydown($event)">
                   <div class="modal-body">
                     <div class="form-group">
                         <input v-model="form.name" type="text" name="name"
@@ -95,8 +99,10 @@
 
                   <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Create</button>
+                    <button type="submit" class="btn btn-primary">Create</button>
                   </div>
+                  </form>
+
                 </div>
               </div>
             </div>
@@ -122,6 +128,12 @@
               bio: '',
               photo: ''
             })
+          }
+        },
+        methods: {
+          createUser () {
+          // Submit the form via a POST request
+          this.form.post('api/users')
           }
         },
         mounted() {
