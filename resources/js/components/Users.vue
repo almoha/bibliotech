@@ -22,13 +22,16 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th>Type</th>
+                    <th>Registered</th>
                     <th>Modify</th>
                   </tr>
-                  <tr>
-                    <td>183</td>
-                    <td>John Doe</td>
-                    <td>11-7-2014</td>
-                    <td><span class="tag tag-success">Approved</span></td>
+
+                  <tr v-for="user in users" :key="user.id">
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{user.type }}</td>
+                    <td>{{ user.created_at }}</td>
                     <td>
                         <a href=""><i class="fa fa-edit color-blue"></i></a>
                         /
@@ -119,7 +122,8 @@
 
         data () {
           return {
-          // Create a new form instance
+            users: {},
+            // Create a new form instance
             form: new Form({
               name: '',
               email: '',
@@ -131,13 +135,16 @@
           }
         },
         methods: {
+          loadUsers(){
+            axios.get('api/users').then(({ data }) => (this.users = data.data));    
+          },
           createUser () {
           // Submit the form via a POST request
-          this.form.post('api/users')
+          this.form.post('api/users');
           }
         },
-        mounted() {
-            console.log('Component mounted.')
+        created() {
+            this.loadUsers();
         },
         
     }
