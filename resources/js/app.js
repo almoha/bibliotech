@@ -9,32 +9,51 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+//momentJs
+import moment from 'moment';
+moment.locale('fr'); 
+// ./momentJs
+
 // vform
 import { Form, HasError, AlertError } from 'vform';
 
 window.Form = Form; //rajout de Code inspire
 
-Vue.component(HasError.name, HasError)// global component
-Vue.component(AlertError.name, AlertError)//global component
+Vue.component(HasError.name, HasError);// global component
+Vue.component(AlertError.name, AlertError);//global component
 // ./vform
 
 //Vue Router
-import VueRouter from 'vue-router'
-Vue.use(VueRouter)
+import VueRouter from 'vue-router';
+Vue.use(VueRouter);
 
 //on peut aussi référencer un fichier route externe
 let routes = [
     { path: '/dashboard', component: require('./components/Dashboard.vue').default },
     { path: '/profile', component: require('./components/Profile.vue').default },
     { path: '/users', component: require('./components/Users.vue').default }
-]
+];
 
 const router = new VueRouter({
     mode: 'history',
     routes // short for `routes: routes`
 
-})
+});
 // ./Vue Router
+
+
+//global filter
+Vue.filter('capitalize', function (value) {
+    return value.charAt(0).toUpperCase() + value.slice(1)
+});
+
+Vue.filter('formatDate', function (value) {
+    return moment(value).format('Do MMMM YYYY');
+});
+
+
+// ./global filter
+
 
 /**
  * The following block of code may be used to automatically register your
