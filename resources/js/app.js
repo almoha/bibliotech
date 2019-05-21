@@ -14,10 +14,34 @@ import moment from 'moment';
 moment.locale('fr'); 
 // ./momentJs
 
+//VueProgressBar
+import VueProgressBar from 'vue-progressbar'
+
+Vue.use(VueProgressBar, {
+    color: 'rgb(143, 255, 199)',
+    failedColor: 'red',
+    height: '3px'
+});
+// ./VueProgressBar
+
+// Sweetalert2
+import swal from 'sweetalert2'
+window.swal = swal;
+
+const toast = swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000
+});
+
+window.toast = toast;
+// ./Sweetalert2
+
 // vform
 import { Form, HasError, AlertError } from 'vform';
 
-window.Form = Form; //rajout de Code inspire
+window.Form = Form; //rajout de Code inspire=> global variable
 
 Vue.component(HasError.name, HasError);// global component
 Vue.component(AlertError.name, AlertError);//global component

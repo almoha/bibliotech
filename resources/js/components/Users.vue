@@ -138,14 +138,26 @@
           loadUsers(){
             axios.get('api/users').then(({ data }) => (this.users = data.data));    
           },
-          createUser () {
-          // Submit the form via a POST request
-          this.form.post('api/users');
+
+          createUser() {
+            this.$Progress.start();
+            // Submit the form via a POST request
+            this.form.post('api/users');
+
+            $('#AddNew').modal('hide');
+
+            toast.fire({
+            type: 'success',
+            title: 'User successfully created'
+            });
+
+            this.$Progress.finish();
           }
         },
-        created() {
+
+          created() {
             this.loadUsers();
-        },
+          }
         
     }
 </script>
