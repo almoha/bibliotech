@@ -2021,19 +2021,31 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     createUser: function createUser() {
-      this.$Progress.start(); // Submit the form via a POST request
+      var _this2 = this;
 
-      this.form.post('api/users');
-      $('#AddNew').modal('hide');
-      toast.fire({
-        type: 'success',
-        title: 'User successfully created'
+      this.$Progress.start();
+      this.form.post('api/users').then(function () {
+        Fire.$emit('after-create'); //we recommend you always use kebab-case for event names
+
+        $('#addNew').modal('hide');
+        toast.fire({
+          type: 'success',
+          title: 'User Created in successfully'
+        });
+
+        _this2.$Progress.finish();
+      })["catch"](function () {
+        _this2.$Progress.fail();
       });
-      this.$Progress.finish();
     }
   },
   created: function created() {
+    var _this3 = this;
+
     this.loadUsers();
+    Fire.$on('after-create', function () {
+      _this3.loadUsers();
+    });
   }
 });
 
@@ -58888,10 +58900,10 @@ var render = function() {
       {
         staticClass: "modal fade",
         attrs: {
-          id: "AddNew",
+          id: "addNew",
           tabindex: "-1",
           role: "dialog",
-          "aria-labelledby": "AddNewLabel",
+          "aria-labelledby": "addNewLabel",
           "aria-hidden": "true"
         }
       },
@@ -59174,7 +59186,7 @@ var staticRenderFns = [
               "data-toggle": "modal",
               "data-backdrop": "static",
               "data-keyboard": "false",
-              "data-target": "#AddNew"
+              "data-target": "#addNew"
             }
           },
           [
@@ -59222,7 +59234,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "modal-header" }, [
-      _c("h5", { staticClass: "modal-title", attrs: { id: "AddNewLabel" } }, [
+      _c("h5", { staticClass: "modal-title", attrs: { id: "addNewLabel" } }, [
         _vm._v("Add New")
       ]),
       _vm._v(" "),
@@ -74148,6 +74160,10 @@ var toast = sweetalert2__WEBPACK_IMPORTED_MODULE_2___default.a.mixin({
   timer: 3000
 });
 window.toast = toast; // ./Sweetalert2
+// Custom event => global en l'espèce
+
+window.Fire = new Vue(); // Fire est un nom libre
+// ./ Custom event
 // vform
 
 

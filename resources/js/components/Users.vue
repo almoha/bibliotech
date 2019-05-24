@@ -9,7 +9,7 @@
                 <div class="card-tools">
                     <button class="btn btn-success" data-toggle="modal" 
                     data-backdrop="static" data-keyboard="false"
-                    data-target="#AddNew">Add New <i class="fas fa-user-plus fa-fw"></i>
+                    data-target="#addNew">Add New <i class="fas fa-user-plus fa-fw"></i>
                     </button>      
                 </div>
               </div>
@@ -47,11 +47,11 @@
           </div>
 
             <!-- Modal -->
-            <div class="modal fade" id="AddNew" tabindex="-1" role="dialog" aria-labelledby="AddNewLabel" aria-hidden="true">
+            <div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="AddNewLabel">Add New</h5>
+                    <h5 class="modal-title" id="addNewLabel">Add New</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
@@ -135,30 +135,35 @@
           }
         },
         methods: {
+
           loadUsers(){
             axios.get('api/users').then(({ data }) => (this.users = data.data));    
           },
 
-          createUser() {
-            this.$Progress.start();
-            // Submit the form via a POST request
-            this.form.post('api/users');
-
-            $('#AddNew').modal('hide');
-
-            toast.fire({
-            type: 'success',
-            title: 'User successfully created'
-            });
-
-            this.$Progress.finish();
+          createUser(){
+                this.$Progress.start();
+                this.form.post('api/users')
+                .then(()=>{
+                    Fire.$emit('after-create');//we recommend you always use kebab-case for event names
+                    $('#addNew').modal('hide')
+                    toast.fire({
+                        type: 'success',
+                        title: 'User Created in successfully'
+                        });
+                    this.$Progress.finish();
+                })
+                .catch(()=>{
+                  this.$Progress.fail();
+                })
           }
         },
 
           created() {
             this.loadUsers();
+           Fire.$on('after-create',() => {
+               this.loadUsers();
+           });
           }
-        
     }
 </script>
    

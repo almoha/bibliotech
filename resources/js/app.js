@@ -38,6 +38,11 @@ const toast = swal.mixin({
 window.toast = toast;
 // ./Sweetalert2
 
+// Custom event => global en l'espèce
+window.Fire = new Vue(); // Fire est un nom libre
+// ./ Custom event
+
+
 // vform
 import { Form, HasError, AlertError } from 'vform';
 
