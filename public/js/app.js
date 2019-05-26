@@ -2025,7 +2025,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.$Progress.start();
       this.form.post('api/users').then(function () {
-        Fire.$emit('after-create'); //we recommend you always use kebab-case for event names
+        Fire.$emit('after-cud'); //we recommend you always use kebab-case for event names
 
         $('#addNew').modal('hide');
         toast.fire({
@@ -2037,14 +2037,37 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function () {
         _this2.$Progress.fail();
       });
+    },
+    deleteUser: function deleteUser(id) {
+      var _this3 = this;
+
+      swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(function (result) {
+        if (result.value) {
+          _this3.form["delete"]('api/users/' + id).then(function () {
+            Fire.$emit('after-cud');
+            swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+          })["catch"](function () {
+            swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+          });
+        }
+      });
     }
   },
+  //fin  method
   created: function created() {
-    var _this3 = this;
+    var _this4 = this;
 
     this.loadUsers();
-    Fire.$on('after-create', function () {
-      _this3.loadUsers();
+    Fire.$on('after-cud', function () {
+      _this4.loadUsers();
     });
   }
 });
@@ -58884,7 +58907,23 @@ var render = function() {
                       _vm._v(_vm._s(_vm._f("formatDate")(user.created_at)))
                     ]),
                     _vm._v(" "),
-                    _vm._m(2, true)
+                    _c("td", [
+                      _vm._m(2, true),
+                      _vm._v("\n                /\n                "),
+                      _c(
+                        "a",
+                        {
+                          attrs: { href: "" },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.deleteUser(user.id)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fa fa-trash color-red" })]
+                      )
+                    ])
                   ])
                 })
               ],
@@ -59219,14 +59258,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("a", { attrs: { href: "" } }, [
-        _c("i", { staticClass: "fa fa-edit color-blue" })
-      ]),
-      _vm._v("\n                /\n                "),
-      _c("a", { attrs: { href: "" } }, [
-        _c("i", { staticClass: "fa fa-trash color-red" })
-      ])
+    return _c("a", { attrs: { href: "" } }, [
+      _c("i", { staticClass: "fa fa-edit color-blue" })
     ])
   },
   function() {

@@ -35,7 +35,7 @@
                     <td>
                         <a href=""><i class="fa fa-edit color-blue"></i></a>
                         /
-                        <a href=""><i class="fa fa-trash color-red"></i></a>
+                        <a href="" @click.prevent="deleteUser(user.id)"><i class="fa fa-trash color-red"></i></a>
                     </td>
                   </tr>
 
@@ -144,7 +144,7 @@
                 this.$Progress.start();
                 this.form.post('api/users')
                 .then(()=>{
-                    Fire.$emit('after-create');//we recommend you always use kebab-case for event names
+                    Fire.$emit('after-cud');//we recommend you always use kebab-case for event names
                     $('#addNew').modal('hide')
                     toast.fire({
                         type: 'success',
@@ -155,12 +155,49 @@
                 .catch(()=>{
                   this.$Progress.fail();
                 })
-          }
-        },
+          },
+
+          deleteUser(id){
+
+              swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+
+                  if (result.value) {     
+                    this.form.delete('api/users/'+id)
+                    .then(()=> {
+                        Fire.$emit('after-cud');
+                        swal.fire(
+                          'Deleted!',
+                          'Your file has been deleted.',
+                          'success'
+                        )
+                    })
+                    .catch(()=> {
+                          swal.fire(
+                          'Deleted!',
+                          'Your file has been deleted.',
+                          'success'
+                        );
+
+                    });
+                  }
+
+                })
+
+          },
+
+        },//fin  method
 
           created() {
             this.loadUsers();
-           Fire.$on('after-create',() => {
+           Fire.$on('after-cud',() => {
                this.loadUsers();
            });
           }
