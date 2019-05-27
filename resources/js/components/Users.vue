@@ -7,9 +7,8 @@
                 <h3 class="card-title">Users list</h3>
 
                 <div class="card-tools">
-                    <button class="btn btn-success" data-toggle="modal" 
-                    data-backdrop="static" data-keyboard="false"
-                    data-target="#addNew">Add New <i class="fas fa-user-plus fa-fw"></i>
+                    <button class="btn btn-success" @click="newModal"
+                    data-backdrop="static" data-keyboard="false">Add New <i class="fas fa-user-plus fa-fw"></i>
                     </button>      
                 </div>
               </div>
@@ -33,7 +32,7 @@
                     <td>{{ user.type|capitalize }}</td>
                     <td>{{ user.created_at|formatDate }}</td>
                     <td>
-                        <a href=""><i class="fa fa-edit color-blue"></i></a>
+                        <a href="" @click.prevent="editModal(user)"><i class="fa fa-edit color-blue"></i></a>
                         /
                         <a href="" @click.prevent="deleteUser(user.id)"><i class="fa fa-trash color-red"></i></a>
                     </td>
@@ -135,6 +134,19 @@
           }
         },
         methods: {
+
+          newModal(){
+            this.form.reset();//champs
+            this.form.clear();//erreurs
+            $('#addNew').modal('show');
+          },
+
+          editModal(user){
+            this.form.reset();//champs
+            this.form.clear();//erreurs
+            this.form.fill(user);//population data
+            $('#addNew').modal('show');
+          },
 
           loadUsers(){
             axios.get('api/users').then(({ data }) => (this.users = data.data));    
