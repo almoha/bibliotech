@@ -1997,6 +1997,45 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2004,12 +2043,13 @@ __webpack_require__.r(__webpack_exports__);
       users: {},
       // Create a new form instance vform
       form: new Form({
-        name: '',
-        email: '',
-        password: '',
-        type: '',
-        bio: '',
-        photo: ''
+        id: "",
+        name: "",
+        email: "",
+        password: "",
+        type: "",
+        bio: "",
+        photo: ""
       })
     };
   },
@@ -2019,7 +2059,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.form.clear(); //erreurs
 
-      $('#addNew').modal('show');
+      $("#addNew").modal("show");
     },
     editModal: function editModal(user) {
       this.editmode = true, this.form.reset(); //champs
@@ -2028,12 +2068,12 @@ __webpack_require__.r(__webpack_exports__);
 
       this.form.fill(user); //population data
 
-      $('#addNew').modal('show');
+      $("#addNew").modal("show");
     },
     loadUsers: function loadUsers() {
       var _this = this;
 
-      axios.get('api/users').then(function (_ref) {
+      axios.get("api/users").then(function (_ref) {
         var data = _ref.data;
         return _this.users = data.data;
       });
@@ -2042,13 +2082,13 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       this.$Progress.start();
-      this.form.post('api/users').then(function () {
-        Fire.$emit('after-cud'); //we recommend you always use kebab-case for event names
+      this.form.post("api/users").then(function () {
+        Fire.$emit("after-cud"); //we recommend you always use kebab-case for event names
 
-        $('#addNew').modal('hide');
+        $("#addNew").modal("hide");
         toast.fire({
-          type: 'success',
-          title: 'User Created in successfully'
+          type: "success",
+          title: "User Created in successfully"
         });
 
         _this2.$Progress.finish();
@@ -2057,26 +2097,42 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     updateUser: function updateUser() {
-      console.log("editing");
-    },
-    deleteUser: function deleteUser(id) {
       var _this3 = this;
 
+      // console.log("editing");
+      this.$Progress.start();
+      this.form.put("api/users/" + this.form.id).then(function () {
+        Fire.$emit("after-cud"); //we recommend you always use kebab-case for event names
+
+        $("#addNew").modal("hide");
+        toast.fire({
+          type: "success",
+          title: "User successfully updated"
+        });
+
+        _this3.$Progress.finish();
+      })["catch"](function () {
+        _this3.$Progress.fail();
+      });
+    },
+    deleteUser: function deleteUser(id) {
+      var _this4 = this;
+
       swal.fire({
-        title: 'Are you sure?',
+        title: "Are you sure?",
         text: "You won't be able to revert this!",
-        type: 'warning',
+        type: "warning",
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
       }).then(function (result) {
         if (result.value) {
-          _this3.form["delete"]('api/users/' + id).then(function () {
-            Fire.$emit('after-cud');
-            swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+          _this4.form["delete"]("api/users/" + id).then(function () {
+            Fire.$emit("after-cud");
+            swal.fire("Deleted!", "Your file has been deleted.", "success");
           })["catch"](function () {
-            swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+            swal.fire("Deleted!", "Your file has been deleted.", "success");
           });
         }
       });
@@ -2084,11 +2140,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   //fin  method
   created: function created() {
-    var _this4 = this;
+    var _this5 = this;
 
     this.loadUsers();
-    Fire.$on('after-cud', function () {
-      _this4.loadUsers();
+    Fire.$on("after-cud", function () {
+      _this5.loadUsers();
     });
   }
 });
@@ -58917,7 +58973,7 @@ var render = function() {
                 on: { click: _vm.newModal }
               },
               [
-                _vm._v("Add New "),
+                _vm._v("\n            Add New\n            "),
                 _c("i", { staticClass: "fas fa-user-plus fa-fw" })
               ]
             )
