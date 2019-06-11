@@ -2132,7 +2132,7 @@ __webpack_require__.r(__webpack_exports__);
             Fire.$emit("after-cud");
             swal.fire("Deleted!", "Your file has been deleted.", "success");
           })["catch"](function () {
-            swal.fire("Deleted!", "Your file has been deleted.", "success");
+            _this4.$Progress.fail();
           });
         }
       });
