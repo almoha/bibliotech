@@ -163,7 +163,7 @@ export default {
     return {
       editmode: false,
       users: {},
-      // Create a new form instance vform
+      // Create a new form instance vform => variable form (peut être un autre nom)
       form: new Form({
         id: "",
         name: "",
