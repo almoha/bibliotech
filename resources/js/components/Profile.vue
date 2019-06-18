@@ -100,7 +100,7 @@
                                 <div class="form-group">
                                     <label for="photo" class="col-sm-2 control-label">Profile Photo</label>
                                     <div class="col-sm-12">
-                                        <input type="file" name="photo" class="form-input">
+                                        <input type="file" @change="updateProfile" name="photo" class="form-input">
                                     </div>
 
                                 </div>
@@ -115,7 +115,7 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-12">
-                                    <button type="submit" class="btn btn-success">Update</button>
+                                    <button @click.prevent="updateInfo" type="submit" class="btn btn-success">Update</button>
                                     </div>
                                 </div>
                                 </form>
@@ -150,6 +150,30 @@
                 })
             }
         },  
+
+        methods:{
+
+            updateInfo(){// déclenchement au bouton update
+                this.form.put('api/profile') // ou axios... on utilise plutôt vform
+                .then(()=>{
+                })
+                .catch(() => {
+                });
+                },
+
+            updateProfile(e){//method relevée sur stackoverflow base64
+                // console.log('uploading');
+                    let file = e.target.files[0];
+                    // console.log(file);
+                    let reader = new FileReader();
+                    // let vm = this;
+                    reader.onloadend = (file) => {
+                        console.log('RESULT', reader.result)
+                        this.form.photo = reader.result;//affecte la valeur de la photo convertie en base 64 
+                    }
+                    reader.readAsDataURL(file);
+            }
+        },
 
         mounted() {
             console.log('Component mounted.')

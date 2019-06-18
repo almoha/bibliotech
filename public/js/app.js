@@ -1994,15 +1994,38 @@ __webpack_require__.r(__webpack_exports__);
       })
     };
   },
+  methods: {
+    updateInfo: function updateInfo() {
+      // déclenchement au bouton update
+      this.form.put('api/profile') // ou axios... on utilise plutôt vform
+      .then(function () {})["catch"](function () {});
+    },
+    updateProfile: function updateProfile(e) {
+      var _this = this;
+
+      //method relevée sur stackoverflow base64
+      // console.log('uploading');
+      var file = e.target.files[0]; // console.log(file);
+
+      var reader = new FileReader(); // let vm = this;
+
+      reader.onloadend = function (file) {
+        console.log('RESULT', reader.result);
+        _this.form.photo = reader.result; //affecte la valeur de la photo convertie en base 64 
+      };
+
+      reader.readAsDataURL(file);
+    }
+  },
   mounted: function mounted() {
     console.log('Component mounted.');
   },
   created: function created() {
-    var _this = this;
+    var _this2 = this;
 
     axios.get("api/profile").then(function (_ref) {
       var data = _ref.data;
-      return _this.form.fill(data);
+      return _this2.form.fill(data);
     });
   }
 });
@@ -59797,11 +59820,45 @@ var render = function() {
                     _vm._v(" "),
                     _vm._m(3),
                     _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-sm-2 control-label",
+                          attrs: { for: "photo" }
+                        },
+                        [_vm._v("Profile Photo")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-sm-12" }, [
+                        _c("input", {
+                          staticClass: "form-input",
+                          attrs: { type: "file", name: "photo" },
+                          on: { change: _vm.updateProfile }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
                     _vm._m(4),
                     _vm._v(" "),
-                    _vm._m(5),
-                    _vm._v(" "),
-                    _vm._m(6)
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("div", { staticClass: "col-sm-offset-2 col-sm-12" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-success",
+                            attrs: { type: "submit" },
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                return _vm.updateInfo($event)
+                              }
+                            }
+                          },
+                          [_vm._v("Update")]
+                        )
+                      ])
+                    ])
                   ])
                 ]
               )
@@ -59952,25 +60009,6 @@ var staticRenderFns = [
     return _c("div", { staticClass: "form-group" }, [
       _c(
         "label",
-        { staticClass: "col-sm-2 control-label", attrs: { for: "photo" } },
-        [_vm._v("Profile Photo")]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-sm-12" }, [
-        _c("input", {
-          staticClass: "form-input",
-          attrs: { type: "file", name: "photo" }
-        })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c(
-        "label",
         { staticClass: "col-sm-12 control-label", attrs: { for: "passpord" } },
         [_vm._v("Passport (leave empty if not changing)")]
       ),
@@ -59980,20 +60018,6 @@ var staticRenderFns = [
           staticClass: "form-control",
           attrs: { type: "passpord", id: "passpord", placeholder: "Passport" }
         })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("div", { staticClass: "col-sm-offset-2 col-sm-12" }, [
-        _c(
-          "button",
-          { staticClass: "btn btn-success", attrs: { type: "submit" } },
-          [_vm._v("Update")]
-        )
       ])
     ])
   }
