@@ -154,24 +154,39 @@
         methods:{
 
             updateInfo(){// déclenchement au bouton update
+            
+                this.$Progress.start();
+
                 this.form.put('api/profile') // ou axios... on utilise plutôt vform
                 .then(()=>{
+
+                this.$Progress.finish();
+
                 })
                 .catch(() => {
+
+                 this.$Progress.fail();
+
                 });
                 },
 
             updateProfile(e){//method relevée sur stackoverflow base64
                 // console.log('uploading');
                     let file = e.target.files[0];
-                    // console.log(file);
+                    console.log(file); // permet de voir les caractéristiques de l'image, dont la size
                     let reader = new FileReader();
                     // let vm = this;
-                    reader.onloadend = (file) => {
-                        console.log('RESULT', reader.result)
+
+                    if(file['size'] < 2111775){
+                        reader.onloadend = (file) => {
+                        // console.log('RESULT', reader.result)
                         this.form.photo = reader.result;//affecte la valeur de la photo convertie en base 64 
+                        }
+                        reader.readAsDataURL(file);   
+                    } else {
+                       swal.fire("Oops!", "You are uploading a large file", "error");     
                     }
-                    reader.readAsDataURL(file);
+
             }
         },
 

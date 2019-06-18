@@ -1996,36 +1996,48 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     updateInfo: function updateInfo() {
+      var _this = this;
+
       // déclenchement au bouton update
+      this.$Progress.start();
       this.form.put('api/profile') // ou axios... on utilise plutôt vform
-      .then(function () {})["catch"](function () {});
+      .then(function () {
+        _this.$Progress.finish();
+      })["catch"](function () {
+        _this.$Progress.fail();
+      });
     },
     updateProfile: function updateProfile(e) {
-      var _this = this;
+      var _this2 = this;
 
       //method relevée sur stackoverflow base64
       // console.log('uploading');
-      var file = e.target.files[0]; // console.log(file);
+      var file = e.target.files[0];
+      console.log(file); // permet de voir les caractéristiques de l'image, dont la size
 
       var reader = new FileReader(); // let vm = this;
 
-      reader.onloadend = function (file) {
-        console.log('RESULT', reader.result);
-        _this.form.photo = reader.result; //affecte la valeur de la photo convertie en base 64 
-      };
+      if (file['size'] < 2111775) {
+        reader.onloadend = function (file) {
+          // console.log('RESULT', reader.result)
+          _this2.form.photo = reader.result; //affecte la valeur de la photo convertie en base 64 
+        };
 
-      reader.readAsDataURL(file);
+        reader.readAsDataURL(file);
+      } else {
+        swal.fire("Oops!", "You are uploading a large file", "error");
+      }
     }
   },
   mounted: function mounted() {
     console.log('Component mounted.');
   },
   created: function created() {
-    var _this2 = this;
+    var _this3 = this;
 
     axios.get("api/profile").then(function (_ref) {
       var data = _ref.data;
-      return _this2.form.fill(data);
+      return _this3.form.fill(data);
     });
   }
 });
