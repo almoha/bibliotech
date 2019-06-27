@@ -249,9 +249,12 @@ export default {
               .then(() => {
                 Fire.$emit("after-cud");
                 swal.fire("Deleted!", "Your file has been deleted.", "success");
+                Fire.$emit('after-cud');
               })
+
               .catch(() => {
                 this.$Progress.fail();
+                swal.fire("Failed!", "There was something wrong.", "warning");
               });
           }
         });

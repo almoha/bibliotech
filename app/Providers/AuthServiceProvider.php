@@ -24,6 +24,22 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Gate::define('isAdmin', function ($user) { // var $user facultative var Laravel le fait implicitement
+
+            return $user->type === 'admin';
+        });
+
+        Gate::define('isAuthor', function ($user) { // var $user facultative var Laravel le fait implicitement
+
+            return $user->type === 'author';
+        });
+
+        Gate::define('isUser', function ($user) { // var $user facultative var Laravel le fait implicitement
+
+            return $user->type === 'user';
+        });
+
+
         $this->registerPolicies();
 
         Passport::routes();
