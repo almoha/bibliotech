@@ -14,6 +14,11 @@ import moment from 'moment';
 moment.locale('fr'); 
 // ./momentJs
 
+//Gate.js
+import Gate from "./Gate";
+Vue.prototype.$gate = new Gate(window.user); // permet un accès à la fonction  partout dans l'application
+// ./Gate.js
+
 //VueProgressBar
 import VueProgressBar from 'vue-progressbar'
 
@@ -96,7 +101,10 @@ Vue.filter('formatDate', function (value) {
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+//Pour page 404 si accès interdit
+Vue.component('not-found', require('./components/NotFound.vue').default);
+
+// Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

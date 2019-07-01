@@ -1,5 +1,6 @@
 <template>
-  <div class="row mt-5">
+<div class="container">
+  <div class="row mt-5" v-if="$gate.isAdmin()">
     <div class="col-md 12">
       <div class="card">
         <div class="card-header">
@@ -53,6 +54,10 @@
       </div>
       <!-- /.card -->
     </div>
+</div>
+        <div v-if="!$gate.isAdmin()">
+            <not-found></not-found>
+        </div>
 
     <!-- Modal -->
     <div
@@ -154,7 +159,8 @@
       </div>
     </div>
     <!-- /.modal -->
-  </div>
+ 
+</div>
 </template>
 
 <script>
@@ -191,7 +197,9 @@ export default {
     },
 
     loadUsers() {
+      if (this.$gate.isAdmin()){
       axios.get("api/users").then(({ data }) => (this.users = data.data));
+      }
     },
 
     createUser() {
