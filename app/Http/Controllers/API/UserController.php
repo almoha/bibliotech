@@ -24,8 +24,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::latest()->paginate(50);
+        // $this->authorize('isAdmin');
+        if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
+            return User::latest()->paginate(35);
+        }
     }
+
 
     /**
      * Store a newly created resource in storage.
