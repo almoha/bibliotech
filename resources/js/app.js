@@ -101,6 +101,10 @@ Vue.filter('formatDate', function (value) {
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
+//laravel vue pagination
+Vue.component('pagination', require('laravel-vue-pagination'));
+
+
 //Pour page 404 si accès interdit
 Vue.component('not-found', require('./components/NotFound.vue').default);
 

@@ -31,7 +31,7 @@
                 <th>Modify</th>
               </tr>
 
-              <tr v-for="user in users" :key="user.id">
+              <tr v-for="user in users.data" :key="user.id">
                 <td>{{ user.id }}</td>
                 <td>{{ user.name }}</td>
                 <td>{{ user.email }}</td>
@@ -51,6 +51,10 @@
           </table>
         </div>
         <!-- /.card-body -->
+        <div class="card-footer">
+          <pagination :data="users"
+          @pagination-change-page="getResults"></pagination>
+        </div>
       </div>
       <!-- /.card -->
     </div>
@@ -196,9 +200,16 @@ export default {
       $("#addNew").modal("show");
     },
 
+		getResults(page = 1) {
+			axios.get('api/users?page=' + page)
+				.then(response => {
+					this.users = response.data;
+				});
+		},
+
     loadUsers() {
       if (this.$gate.isAdminOrAuthor()){
-      axios.get("api/users").then(({ data }) => (this.users = data.data));
+      axios.get("api/users").then(({ data }) => (this.users = data));
       }
     },
 
