@@ -281,7 +281,20 @@ export default {
   }, //fin  method
 
   created() {
+    Fire.$on("searching", ()=> {
+        let query = this.$parent.search;//car la var est dans app.js le composant parent
+        axios.get('api/findUser?q='+ query)
+        .then((data)=> {
+          this.users = data.data
+        })
+        .catch(()=> {
+
+
+        })
+    })
+
     this.loadUsers();
+
     Fire.$on("after-cud", () => {
       this.loadUsers();
     });
